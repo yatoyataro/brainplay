@@ -1,0 +1,36 @@
+{
+  "name": "prb005-brainplay",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit && tsc -p worker/tsconfig.json --noEmit",
+    "cf:types": "wrangler types",
+    "corpus:build": "node --experimental-strip-types packages/corpus-cli/src/cli.ts",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:worker": "vitest run --config vitest.worker.config.ts",
+    "test:e2e": "playwright test",
+    "check:bundle": "node scripts/check-bundle.mjs",
+    "test:all": "npm run typecheck && npm run test:unit && npm run test:worker && npm run build && npm run check:bundle && npm run test:e2e"
+  },
+  "dependencies": {
+    "preact": "^10.25.4"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.19",
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "@playwright/test": "^1.51.1",
+    "@preact/preset-vite": "^2.9.3",
+    "@types/node": "^22.13.0",
+    "kuroshiro": "^1.2.1",
+    "kuroshiro-analyzer-kuromoji": "^1.1.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.7",
+    "wrangler": "^3.112.0"
+  }
+}
