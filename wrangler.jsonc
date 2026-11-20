@@ -29,7 +29,7 @@
     {
       "binding": "DB",
       "database_name": "prb005-brainplay-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "b7331856-8eba-41fb-94ea-6b404141434d",
       "migrations_dir": "worker/migrations"
     }
   ],
@@ -37,6 +37,6 @@
     "DAILY_REQUEST_HARD_CAP": "100000",
     "DAILY_WRITE_HARD_CAP": "100000",
     "QUOTA_SHED_RATIO": "0.85",
-    "ALLOWED_ORIGIN": "*"
+    "ALLOWED_ORIGIN": "https://prb005-brainplay.pages.dev"
   }
 }
