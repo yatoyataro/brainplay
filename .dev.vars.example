@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local `wrangler dev` testing (never commit real secrets)
+ROOM_TOKEN_SECRET=local-dev-only-change-before-deploy-32chars
+# Local dev only — production locks ALLOWED_ORIGIN in wrangler.jsonc
+ALLOWED_ORIGIN=*
