@@ -100,3 +100,12 @@ npx wrangler deploy
    gh pr merge --squash --delete-branch
    ```
 5. **Apply Migrations & Deploy:** On `main`, apply any new D1 migrations (`npx wrangler d1 migrations apply prb005-brainplay-db --remote`), rebuild Pages with `VITE_API_BASE=https://<worker>.workers.dev npm run build` + `npm run check:bundle`, deploy Pages (`npx wrangler pages deploy dist --project-name=prb005-brainplay`), redeploy Worker (`npx wrangler deploy`) keeping `database_id` and `ALLOWED_ORIGIN` synced, and re-run Section 6 smoke checks.
+
+## 8. Live Production Deployment (`$0` Cloudflare Free Tier)
+
+- **Pages Frontend URL:** `https://prb005-brainplay.pages.dev`
+- **Worker / Durable Object API URL:** `https://prb005-brainplay-api.yatoyataro.workers.dev`
+- **D1 Database:** `prb005-brainplay-db` (`database_id`: `b7331856-8eba-41fb-94ea-6b404141434d`, region `APAC`, `0001_init.sql` applied)
+- **Origin & Security Posture:** `ALLOWED_ORIGIN` strictly locked to `https://prb005-brainplay.pages.dev`, `ROOM_TOKEN_SECRET` configured via Cloudflare Worker secret (zero secrets in repo), `QUOTA_SHED_RATIO = 0.85` (`100,000` daily cap).
+- **Verified Post-Deploy Smoke Checks:** Solo `0` API hits, 2-player Live Sync + clean Leave Room, Data-Access notice persistence, `/about` MIT + corpus attributions, and `403 ORIGIN_FORBIDDEN` enforcement on disallowed/missing Origins.
+
