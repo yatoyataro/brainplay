@@ -1,5 +1,5 @@
-const CACHE_NAME = "prb005-brainplay-v6";
-const SHELL_URLS = ["/", "/manifest.webmanifest"];
+const CACHE_NAME = "prb005-brainplay-v7";
+const SHELL_URLS = ["/", "/manifest.webmanifest", "/favicon.svg", "/favicon.ico"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

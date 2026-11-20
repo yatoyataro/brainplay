@@ -853,4 +853,57 @@ test.describe("PRB-005 End-to-End Solo, Multiplayer, Mobile & A11y", () => {
     await expect(page.locator(".option-btn").first()).toBeEnabled();
     await expect(page.getByLabel("Async card feedback")).toHaveCount(0);
   });
+
+  test("ISS-DEV-020: Favicon, Apple Touch Icon, theme-color meta & PWA manifest/icons served cleanly", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    await expect(page.locator('head link[rel="icon"][href="/favicon.ico"]')).toHaveCount(1);
+    await expect(
+      page.locator('head link[rel="icon"][href="/favicon.svg"][type="image/svg+xml"]')
+    ).toHaveCount(1);
+    await expect(
+      page.locator('head link[rel="apple-touch-icon"][href="/apple-touch-icon.png"]')
+    ).toHaveCount(1);
+    await expect(
+      page.locator('head meta[name="theme-color"][content="#275D4E"]')
+    ).toHaveCount(1);
+
+    const svgRes = await page.request.get("/favicon.svg");
+    expect(svgRes.status()).toBe(200);
+    const svgBody = await svgRes.body();
+    expect(svgBody.byteLength).toBe(891);
+    expect(svgBody.toString("utf8")).toContain("<svg");
+
+    const icoRes = await page.request.get("/favicon.ico");
+    expect(icoRes.status()).toBe(200);
+    const icoBody = await icoRes.body();
+    expect(icoBody.byteLength).toBe(1216);
+    expect(icoBody.subarray(0, 4)).toEqual(Buffer.from([0x00, 0x00, 0x01, 0x00]));
+
+    const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    for (const [path, expectedBytes] of [
+      ["/apple-touch-icon.png", 2889],
+      ["/icon-192.png", 2769],
+      ["/icon-512.png", 8526],
+    ] as const) {
+      const res = await page.request.get(path);
+      expect(res.status()).toBe(200);
+      const body = await res.body();
+      expect(body.byteLength).toBe(expectedBytes);
+      expect(body.subarray(0, 8)).toEqual(pngHeader);
+    }
+
+    const manifestRes = await page.request.get("/manifest.webmanifest");
+    expect(manifestRes.status()).toBe(200);
+    const manifest = (await manifestRes.json()) as {
+      theme_color: string;
+      background_color: string;
+      icons: Array<{ src: string; sizes: string; type: string; purpose: string }>;
+    };
+    expect(manifest.theme_color).toBe("#275D4E");
+    expect(manifest.background_color).toBe("#FDFCE8");
+    expect(manifest.icons).toHaveLength(3);
+  });
 });
