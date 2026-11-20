@@ -3,7 +3,27 @@
   "short_name": "BrainPlay",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#2563eb",
-  "description": "Guilt-free 3-5 minute daily & social learning rounds, offline-ready and zero-cost."
+  "background_color": "#FDFCE8",
+  "theme_color": "#275D4E",
+  "description": "Guilt-free 3-5 minute daily & social learning rounds, offline-ready and zero-cost.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
